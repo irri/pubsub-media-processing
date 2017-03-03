@@ -24,14 +24,16 @@ class Recurror(object):
         self.kwargs = kwargs
         self.function = function
         self.interval = interval
+        self.running = False
 
     def start(self, **params):
+        self.running = True
         self.callback(params)
 
     def stop(self):
-        self.interval = False
+        self.running = False
 
     def callback(self, params):
-        if self.interval:
+        if self.running:
             self.function(params)
             Timer(self.interval, self.callback, (params,)).start()
